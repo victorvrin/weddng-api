@@ -38,6 +38,15 @@ app.get('/reset', (req, res) => {
 })
 
   //-----------------------\\
+ //       /login           \\
+//---------------------------\\
+app.get('/login/:qrtoken', (req, res) => {
+	console.log('server.js > /guests > ALL')
+	res.status(200)
+	res.json({"token": req.params.qrtoken})
+})
+
+  //-----------------------\\
  //       /guests           \\
 //---------------------------\\
 
