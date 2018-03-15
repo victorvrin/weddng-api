@@ -41,9 +41,23 @@ app.get('/reset', (req, res) => {
  //       /login           \\
 //---------------------------\\
 app.get('/login/:qrtoken', (req, res) => {
-	console.log('server.js > /guests > ALL')
-	res.status(200)
-	res.json({"token": req.params.qrtoken})
+	console.log('server.js > /login > token')
+	//TODO userId = security.getUserByQRToken(qrtoken)
+	userId = 2
+	Guest.findAll({
+		where: { "/guestId" : userId } 
+	}).then( (guestResults) => {
+		Guest.findAll({
+			where: { id : userId } 
+		}).then( (userResult) => {
+		res.status(200)
+		res.json({
+			"token": req.params.qrtoken,
+			user: userResult,
+			guests: guestResults
+		})
+	})
+}).catch(() => {res.status(500).send('A aparut o eroare')})
 })
 
   //-----------------------\\
@@ -99,4 +113,4 @@ app.patch('/guests/:id', (req, res) => {
 		.catch(() => res.status(500).send('A aparut o eroare in timpul modificarii guests...'))
 })
 
-app.listen(8080)
+app.listen(8081)
